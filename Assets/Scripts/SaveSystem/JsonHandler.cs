@@ -32,4 +32,14 @@ public static class JsonHandler
 
         Debug.Log("File Written");
     }
+
+    public static void CheckFileExistence(PlayerOutfit playerOutfit)
+    {
+        if (!File.Exists(path))
+        {
+            WritePlayerOutfitData(playerOutfit);
+            
+            Debug.Log("No Previous File");
+        }
+    }
 }

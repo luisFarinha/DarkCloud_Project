@@ -10,9 +10,8 @@ public class DataHandler : MonoBehaviour
 
     void Awake()
     {
-        //playerOutfit = new PlayerOutfit();
-        //SaveData();
-        
+        JsonHandler.CheckFileExistence(new PlayerOutfit());
+
         outfitChangerScripts = GameObject.FindWithTag("PlayerOutfitsPanel").GetComponentsInChildren<OutfitChanger>();
         LoadData();
     }
@@ -39,7 +38,7 @@ public class DataHandler : MonoBehaviour
         }
         else
         {
-            Debug.Log("data is null");
+            Debug.Log("On load, data is null");
         }
 
     }
@@ -64,7 +63,7 @@ public class DataHandler : MonoBehaviour
         }
         else
         {
-            Debug.Log("data is null");
+            Debug.Log("On save, data is null");
         }
 
         JsonHandler.WritePlayerOutfitData(playerOutfit);
