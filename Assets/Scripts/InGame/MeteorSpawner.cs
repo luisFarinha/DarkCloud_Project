@@ -15,7 +15,14 @@ public class MeteorSpawner : MonoBehaviour
     {
         spawnRange = transform.localScale.x / 2;
         spawnFrequency = 1f;
-        meteorSpeed = 10f;
+        meteorSpeed = 7f;
+        StartCoroutine(WaitToSpawnMeteors());
+    }
+
+    private IEnumerator WaitToSpawnMeteors()
+    {
+        yield return new WaitForSeconds(CutsceneVars.CutsceneEnding);
+
         StartCoroutine(SpawnMeteors());
     }
 

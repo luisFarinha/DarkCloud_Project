@@ -10,24 +10,27 @@ public class PlayerContoller : MonoBehaviour
     public float moveSpeed;
     private float moveDir;
 
+    private bool canControlPlayer;
+
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        StartCoroutine(WalkToCenter());
     }
 
     // Update is called once per frame
     void Update()
     {
-        moveDir = Input.GetAxisRaw("Horizontal");
-
+        if (canControlPlayer) { moveDir = Input.GetAxisRaw("Horizontal"); }
     }
 
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(moveDir * moveSpeed, 0f);
+        if (canControlPlayer) { rb.velocity = new Vector2(moveDir * moveSpeed, 0f); }
 
         if(moveDir < 0)
         {
@@ -43,5 +46,15 @@ public class PlayerContoller : MonoBehaviour
         {
             anim.Play("idle");
         }
+    }
+
+    private IEnumerator WalkToCenter()
+    {
+        moveDir = 1f;
+        rb.velocity = new Vector2(moveDir * moveSpeed, 0f);
+
+        yield return new WaitForSeconds(CutsceneVars.FirstCutsceneTimer);
+
+        canControlPlayer = true;
     }
 }

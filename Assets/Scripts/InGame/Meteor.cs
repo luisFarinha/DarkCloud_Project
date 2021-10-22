@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class Meteor : MonoBehaviour
 {
+    [Header("Gameplay Animations Manager")]
+    private GameplayAnimations gameAnims;
+
     private Rigidbody2D rb;
     public float fallSpeed;
 
     // Start is called before the first frame update
     void Start()
     {
+        gameAnims = GameObject.FindWithTag("AnimationManager").GetComponent<GameplayAnimations>();
         rb = GetComponent<Rigidbody2D>();
-        fallSpeed = 10;
+        fallSpeed = 7;
     }
 
     // Update is called once per frame
@@ -29,7 +33,7 @@ public class Meteor : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            //GameOver
+            gameAnims.GameOver();
         }
         else
         {

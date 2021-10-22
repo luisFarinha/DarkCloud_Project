@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class MenuAnimations : MonoBehaviour
 {
     private Animator anim;
     
@@ -33,6 +33,6 @@ public class UIManager : MonoBehaviour
 
     public void ReadyUp() 
     {
-        anim.SetTrigger("Ready");
+        anim.SetBool("Ready",true);
     }
 }
