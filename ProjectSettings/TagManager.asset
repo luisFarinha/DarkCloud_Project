@@ -7,6 +7,8 @@ TagManager:
   - PlayerOutfitsPanel
   - AnimationManager
   - NameInputField
+  - ScoreText
+  - TimeText
   layers:
   - Default
   - TransparentFX
