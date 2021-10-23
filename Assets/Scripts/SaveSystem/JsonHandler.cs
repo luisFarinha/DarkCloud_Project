@@ -5,13 +5,17 @@ using UnityEngine;
 
 public static class JsonHandler
 {
-    public static string path = Application.persistentDataPath + "/PlayerOutfit.json"; //To enable saving on different operating systems (Mac, Windows, ...)
+    //Chosen file paths to enable saving on different operating systems (Mac, Windows, ...)
+    public static string playerOutfitPath = Application.persistentDataPath + "/PlayerOutfit.json";
+    public static string leaderboardPath = Application.persistentDataPath + "/Leaderboard.json";
 
+    //PlayerOutfit--------------------------------------------------------------------------------
+    //Reads PlayerOutfit's data
     public static PlayerOutfit ReadPlayerOutfitData()
     {
-        if (File.Exists(path))
+        if (File.Exists(playerOutfitPath))
         {
-            string jsonString = File.ReadAllText(path);
+            string jsonString = File.ReadAllText(playerOutfitPath);
 
             PlayerOutfit newPlayerOutfit = JsonUtility.FromJson<PlayerOutfit>(jsonString);
 
@@ -19,27 +23,71 @@ public static class JsonHandler
         }
         else
         {
-            Debug.Log("File not found");
+            Debug.Log("Player File not found");
             return null;
         }
     }
-
+    
+    //Writes PlayerOutfit's data
     public static void WritePlayerOutfitData(PlayerOutfit playerOutfit)
     {
         string pPartsInJSON = JsonUtility.ToJson(playerOutfit);
 
-        File.WriteAllText(path, pPartsInJSON);
+        File.WriteAllText(playerOutfitPath, pPartsInJSON);
 
-        Debug.Log("File Written");
+        Debug.Log("Player File Written");
     }
-
-    public static void CheckFileExistence(PlayerOutfit playerOutfit)
+    
+    //Checks if PlayerOutfit's data exists, if not creates a new blank PlayerOutfit file
+    public static void CheckPlayerFileExistence(PlayerOutfit playerOutfit)
     {
-        if (!File.Exists(path))
+        if (!File.Exists(playerOutfitPath))
         {
             WritePlayerOutfitData(playerOutfit);
             
-            Debug.Log("No Previous File");
+            Debug.Log("No Previous Player File");
         }
     }
+
+    //Leaderboard--------------------------------------------------------------------------------
+    //Reads Leaderboard's data
+    public static Leaderboard ReadLeaderboardData()
+    {
+        if (File.Exists(leaderboardPath))
+        {
+            string jsonString = File.ReadAllText(leaderboardPath);
+
+            Leaderboard newLeaderboard = JsonUtility.FromJson<Leaderboard>(jsonString);
+
+            return newLeaderboard;
+        }
+        else
+        {
+            Debug.Log("Leaderboard File not found");
+            return null;
+        }
+    }
+
+    //Writes Leaderboard's data
+    public static void WriteLeaderboardData(Leaderboard leaderboard)
+    {
+        string lPartsInJSON = JsonUtility.ToJson(leaderboard);
+
+        File.WriteAllText(leaderboardPath, lPartsInJSON);
+
+        Debug.Log("Leaderboard File Written");
+    }
+
+    //Checks if Leaderboard's data exists, if not creates a new blank Leaderboard file
+    public static void CheckLeaderboardFileExistence(Leaderboard leaderboard)
+    {
+        if (!File.Exists(leaderboardPath))
+        {
+            WriteLeaderboardData(leaderboard);
+
+            Debug.Log("No Previous Leaderboard File");
+        }
+    }
+
+
 }

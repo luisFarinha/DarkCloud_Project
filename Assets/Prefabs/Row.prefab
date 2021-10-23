@@ -88,9 +88,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9203034485182408352}
+  - component: {fileID: 741066218832804421}
   m_Layer: 5
   m_Name: Row
-  m_TagString: Untagged
+  m_TagString: Row
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,6 +119,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 800, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &741066218832804421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2509802380697920161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48e43f92825449c46b6e83a6bd3eae3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placeTxt: {fileID: 1335326348395240976}
+  nameTxt: {fileID: 6761294324988020139}
+  timeAliveTxt: {fileID: 1372653746486268531}
+  scoreTxt: {fileID: 3362608110014318021}
 --- !u!1 &5078536914312662254
 GameObject:
   m_ObjectHideFlags: 0

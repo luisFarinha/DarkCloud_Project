@@ -11,8 +11,8 @@ public class Leaderboard
 [System.Serializable]
 public class Submission
 {
-    private int place;
-    private string name;
-    private string time;
-    private int score;
+    public string place;
+    public string name;
+    public string time;
+    public string score;
 }

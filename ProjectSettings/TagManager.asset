@@ -7,8 +7,11 @@ TagManager:
   - PlayerOutfitsPanel
   - AnimationManager
   - NameInputField
-  - ScoreText
   - TimeText
+  - LeaderboardTable
+  - Row
+  - ScoreText
+  - DataHandler
   layers:
   - Default
   - TransparentFX
