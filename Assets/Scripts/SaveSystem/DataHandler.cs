@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class DataHandler : MonoBehaviour
 {
     private PlayerOutfit playerOutfit;
 
     private OutfitChanger[] outfitChangerScripts;
+    private InputField nameInputField;
 
     void Awake()
     {
         JsonHandler.CheckFileExistence(new PlayerOutfit());
 
         outfitChangerScripts = GameObject.FindWithTag("PlayerOutfitsPanel").GetComponentsInChildren<OutfitChanger>();
+        nameInputField = GameObject.FindWithTag("NameInputField").GetComponent<InputField>();
         LoadData();
     }
 
@@ -35,6 +39,8 @@ public class DataHandler : MonoBehaviour
                     case "sword": outfitChanger.currentOption = playerOutfit.sword; break;
                 }
             }
+
+            nameInputField.text = playerOutfit.name;
         }
         else
         {
@@ -60,6 +66,8 @@ public class DataHandler : MonoBehaviour
                     case "sword": playerOutfit.sword = outfitChanger.currentOption; break;
                 }
             }
+
+            playerOutfit.name = nameInputField.text;
         }
         else
         {

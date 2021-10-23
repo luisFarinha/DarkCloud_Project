@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PlayerOutfitsPanel
   - AnimationManager
+  - NameInputField
   layers:
   - Default
   - TransparentFX

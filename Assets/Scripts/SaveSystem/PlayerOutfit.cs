@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerOutfit
 {
+    public string name;
     public int head;
     public int shoulders;
     public int torso;
