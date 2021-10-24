@@ -48,6 +48,7 @@ public class GameplayAnimations : MonoBehaviour
 
     public void GameOver()
     {
+        anim.SetBool("GameOver", true);
         lockScrollMenus = true;
         Time.timeScale = 0;
         anim.Play("GameOver");

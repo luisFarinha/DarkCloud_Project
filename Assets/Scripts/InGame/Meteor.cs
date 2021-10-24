@@ -52,7 +52,15 @@ public class Meteor : MonoBehaviour
         {
             sr.color = new Color(0, 0, 0);
         }
-        else if (fallSpeed >= 16)
+        else if (fallSpeed >= 16 && fallSpeed < 17)
+        {
+            sr.color = new Color(0.3f, 0.3f, 0.3f);
+        }
+        else if (fallSpeed >= 17 && fallSpeed < 18)
+        {
+            sr.color = new Color(0.6f, 0.6f, 0.6f);
+        }
+        else if (fallSpeed >= 18 && fallSpeed < 19)
         {
             sr.color = new Color(1, 1, 1);
         }

@@ -12,6 +12,7 @@ TagManager:
   - Row
   - ScoreText
   - DataHandler
+  - ResultText
   layers:
   - Default
   - TransparentFX

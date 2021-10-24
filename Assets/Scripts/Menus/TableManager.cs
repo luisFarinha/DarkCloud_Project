@@ -13,6 +13,9 @@ public class TableManager : MonoBehaviour
     private InputField nameInputField;
     private Text timeTxt;
     private Text scoreTxt;
+
+    private Text resultTxt;
+
     [Header("table row")]
     public GameObject row;
 
@@ -26,6 +29,7 @@ public class TableManager : MonoBehaviour
         try { nameInputField = GameObject.FindWithTag("NameInputField").GetComponent<InputField>(); ; } catch (Exception) { };
         try { timeTxt = GameObject.FindWithTag("TimeText").GetComponent<Text>(); } catch (Exception) { };
         try { scoreTxt = GameObject.FindWithTag("ScoreText").GetComponent<Text>(); } catch (Exception) { };
+        try { resultTxt = GameObject.FindWithTag("ResultText").GetComponent<Text>(); } catch (Exception) { }; 
     }
 
     public void CreateRow()
@@ -41,6 +45,12 @@ public class TableManager : MonoBehaviour
         rowScript.scoreTxt.text = scoreTxt.text;
 
         SortByScore();
+
+        try
+        {
+            resultTxt.text = nameInputField.text + " dodged " + scoreTxt.text + " ball(s) in " + timeTxt.text + " minutes!";
+        }
+        catch (Exception) { }
 
         dataHandler.SaveLeaderboardData();
     }
