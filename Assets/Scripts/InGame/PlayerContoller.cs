@@ -13,7 +13,6 @@ public class PlayerContoller : MonoBehaviour
     private bool canControlPlayer;
 
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -22,39 +21,41 @@ public class PlayerContoller : MonoBehaviour
         StartCoroutine(WalkToCenter());
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (canControlPlayer) { moveDir = Input.GetAxisRaw("Horizontal"); }
+        // gets results of -1, 0 and 1 based on A/D or Left/Right Arrows being pressed
+        if (canControlPlayer) { moveDir = Input.GetAxisRaw("Horizontal"); } 
     }
 
     private void FixedUpdate()
     {
-        if (canControlPlayer) { rb.velocity = new Vector2(moveDir * moveSpeed, 0f); }
+        // if has player movement control then moves player to the respective direction
+        if (canControlPlayer) { rb.velocity = new Vector2(moveDir * moveSpeed, 0f); } 
 
+        // changes the looking direction of the player
         if(moveDir < 0)
         {
             transform.eulerAngles = new Vector3(0, 0, 0);
-            anim.Play("walk");
+            anim.Play(Constants.PLAYER_WALK);
         }
         else if(moveDir > 0)
         {
             transform.eulerAngles = new Vector3(0, 180, 0);
-            anim.Play("walk");
+            anim.Play(Constants.PLAYER_WALK);
         }
         else
         {
-            anim.Play("idle");
+            anim.Play(Constants.PLAYER_IDLE);
         }
     }
 
-    private IEnumerator WalkToCenter()
+    private IEnumerator WalkToCenter() // moves player to the center of the field until its 'animation' timer is over
     {
         moveDir = 1f;
         rb.velocity = new Vector2(moveDir * moveSpeed, 0f);
 
         yield return new WaitForSeconds(CutsceneVars.FirstCutsceneTimer);
 
-        canControlPlayer = true;
+        canControlPlayer = true; // gives player movement control back to the user
     }
 }

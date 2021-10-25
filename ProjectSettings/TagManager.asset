@@ -13,6 +13,8 @@ TagManager:
   - ScoreText
   - DataHandler
   - ResultText
+  - bgAudio
+  - AudioManager
   layers:
   - Default
   - TransparentFX

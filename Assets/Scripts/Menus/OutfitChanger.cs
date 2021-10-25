@@ -25,7 +25,7 @@ public class OutfitChanger : MonoBehaviour
         BodyPartCheck();
     }
 
-    public void NextOption()
+    public void NextOption() // changes the option value to the next one within the list
     {
         currentOption++;
         if(currentOption >= options.Count)
@@ -35,7 +35,7 @@ public class OutfitChanger : MonoBehaviour
         BodyPartCheck();
     }
 
-    public void PreviousOption()
+    public void PreviousOption() // changes the option value to the previous one within the list
     {
         currentOption--;
         if (currentOption < 0)
@@ -45,20 +45,20 @@ public class OutfitChanger : MonoBehaviour
         BodyPartCheck();
     }
 
-    private void BodyPartCheck()
+    private void BodyPartCheck() // checks for the correct body part to be displayed
     {
         bodyPart.sprite = options[currentOption];
 
-        if (otherBodyPart != null)
+        if (otherBodyPart != null) // in case that there is more than on sprite being changed (arms, legs and shoulders)
         {
             otherBodyPart.sprite = otherOptions[currentOption];
         }
         
-        if(bodyPart.sprite != null)
+        if(bodyPart.sprite != null) // updates the body part text
         {
             outfitTxt.text = bodyPart.sprite.name;
         }
-        else
+        else // for parts that are optional to use (capes)
         {
             outfitTxt.text = "None";
         }

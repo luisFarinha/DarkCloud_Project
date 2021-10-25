@@ -2,90 +2,97 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameplayAnimations : MonoBehaviour
+public class GameplayAnimations : MonoBehaviour // manages all UI and cutscene Animations during play
 {
     private Animator anim;
+    private AudioSource bgAudio;
+    private AudioManager audioManager;
 
-    private bool lockScrollMenus;
+    private bool lockScrollMenus; // locks player costumization menu in case of a game over
 
-    // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
-
+        bgAudio = GameObject.FindWithTag(Constants.BACKGROUND_AUDIO).GetComponent<AudioSource>();
+        audioManager = GameObject.FindWithTag(Constants.AUDIO_MANAGER).GetComponent<AudioManager>();
+        
+        //coroutines for cutscene animations
         StartCoroutine(CameraShake());
         StartCoroutine(DontGetHit());
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !lockScrollMenus)
+        if (Input.GetKeyDown(KeyCode.Escape) && !lockScrollMenus) // by clicking Escape the user can enter or exit the player costumization menu
         {
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("ScrollInPlay"))
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName(Constants.SCROLL_IN_PLAY))
             {
-                anim.Play("ScrollOutPlay");
+                anim.Play(Constants.SCROLL_OUT_PLAY);
             }
             else
             {
-                anim.Play("ScrollInPlay");
+                anim.Play(Constants.SCROLL_IN_PLAY);
             }
         }
     }
 
-    private IEnumerator CameraShake()
+    private IEnumerator CameraShake() // calls a camera shake animation after the 1st cutscene animation is played
     {
         yield return new WaitForSeconds(CutsceneVars.FirstCutsceneTimer);
 
-        anim.Play("CameraShake");
+        anim.Play(Constants.CAMERA_SHAKE);
     }
 
-    private IEnumerator DontGetHit()
+    private IEnumerator DontGetHit() // calls a dont get hit animation after the 3rd cutscene animation is played
     {
         yield return new WaitForSeconds(CutsceneVars.ThirdCutsceneTimer);
 
-        anim.Play("DGHPopUp");
+        anim.Play(Constants.DONT_GET_HIT);
     }
 
-    public void GameOver()
+    public void GameOver() // is called when the player gets hit by a meteor (also stops time and locks the costumization menu)
     {
-        anim.SetBool("GameOver", true);
+        anim.SetBool(Constants.GAME_OVER, true);
         lockScrollMenus = true;
+        StopTime();
+        audioManager.AudioGameOverM();
+        anim.Play(Constants.GAME_OVER);
+    }
+
+    public void TryAgain() // plays try again animation with an event that restarts the scene
+    {
+        anim.Play(Constants.PLAY_TO_PLAY);    
+    }
+
+    public void ExitToMenus() // plays fade in animation with an event that changes to the main menu scene
+    {
+        anim.Play(Constants.PLAY_TO_EDIT);
+    }
+
+    public void MenuScrollOut() // plays scroll out menu animation
+    {
+        anim.Play(Constants.SCROLL_OUT_PLAY);
+    }
+
+    public void ShowLeaderboard() // plays show leaderboard animation
+    {
+        anim.Play(Constants.LEADERBOARD_SCROLL_IN);
+    }
+
+    public void HideLeaderboard() // plays hide leaderboard animation
+    {
+        anim.Play(Constants.LEADERBOARD_SCROLL_OUT);
+    }
+
+    public void StopTime() // stops in game time and pauses background music
+    {
         Time.timeScale = 0;
-        anim.Play("GameOver");
+        bgAudio.Pause();
     }
 
-    public void TryAgain()
-    {
-        anim.Play("PlayToPlay");    
-    }
-
-    public void ExitToMenus()
-    {
-        anim.Play("PlayToEdit");
-    }
-
-    public void MenuScrollOut()
-    {
-        anim.Play("ScrollOutPlay");
-    }
-
-    public void ShowLeaderboard()
-    {
-        anim.Play("LeaderboardScrollIn");
-    }
-
-    public void HideLeaderboard()
-    {
-        anim.Play("LeaderboardScrollOut");
-    }
-
-    public void StopTime()
-    {
-        Time.timeScale = 0;
-    }
-
-    public void ResumeTime()
+    public void ResumeTime() // resumes in game time and unpauses background music
     {
         Time.timeScale = 1;
+        bgAudio.UnPause();
     }
 }

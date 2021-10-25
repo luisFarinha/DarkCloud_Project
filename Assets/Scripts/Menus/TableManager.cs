@@ -16,26 +16,27 @@ public class TableManager : MonoBehaviour
 
     private Text resultTxt;
 
-    [Header("table row")]
+    [Header("Table Row")]
     public GameObject row;
 
     // Start is called before the first frame update
     void Start()
     {
-        dataHandler = GameObject.FindWithTag("DataHandler").GetComponent<DataHandler>();
+        dataHandler = GameObject.FindWithTag(Constants.DATA_HANDLER).GetComponent<DataHandler>();
         SortByScore();
 
-        try { rows = GameObject.FindGameObjectsWithTag("Rows"); } catch (Exception) { };
-        try { nameInputField = GameObject.FindWithTag("NameInputField").GetComponent<InputField>(); ; } catch (Exception) { };
-        try { timeTxt = GameObject.FindWithTag("TimeText").GetComponent<Text>(); } catch (Exception) { };
-        try { scoreTxt = GameObject.FindWithTag("ScoreText").GetComponent<Text>(); } catch (Exception) { };
-        try { resultTxt = GameObject.FindWithTag("ResultText").GetComponent<Text>(); } catch (Exception) { }; 
+        try { rows = GameObject.FindGameObjectsWithTag(Constants.ROW); } catch (Exception) { };
+        try { nameInputField = GameObject.FindWithTag(Constants.NAME_INPUT_FIELD).GetComponent<InputField>(); ; } catch (Exception) { };
+        try { timeTxt = GameObject.FindWithTag(Constants.TIME_TEXT).GetComponent<Text>(); } catch (Exception) { };
+        try { scoreTxt = GameObject.FindWithTag(Constants.SCORE_TEXT).GetComponent<Text>(); } catch (Exception) { };
+        try { resultTxt = GameObject.FindWithTag(Constants.RESULT_TEXT).GetComponent<Text>(); } catch (Exception) { }; 
     }
 
     public void CreateRow()
     {
         GameObject newRow = Instantiate(row) as GameObject;
         newRow.transform.SetParent(transform);
+        newRow.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1);
         newRow.transform.localScale = new Vector2(1, 1);
         Row rowScript = newRow.GetComponent<Row>();
 
@@ -57,7 +58,7 @@ public class TableManager : MonoBehaviour
 
     public void SortByScore() 
     {
-        rows = GameObject.FindGameObjectsWithTag("Row");
+        rows = GameObject.FindGameObjectsWithTag(Constants.ROW);
 
         int[] scoresOrdered = new int[rows.Length];
 

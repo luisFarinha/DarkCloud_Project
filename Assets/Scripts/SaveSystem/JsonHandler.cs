@@ -6,8 +6,8 @@ using UnityEngine;
 public static class JsonHandler
 {
     //Chosen file paths to enable saving on different operating systems (Mac, Windows, ...)
-    public static string playerOutfitPath = Application.persistentDataPath + "/PlayerOutfit.json";
-    public static string leaderboardPath = Application.persistentDataPath + "/Leaderboard.json";
+    public static string playerOutfitPath = Application.persistentDataPath + Constants.PLAYER_OUTFIT_FILE_PATH;
+    public static string leaderboardPath = Application.persistentDataPath + Constants.LEADERBOARD_FILE_PATH;
 
     //PlayerOutfit--------------------------------------------------------------------------------
     //Reads PlayerOutfit's data

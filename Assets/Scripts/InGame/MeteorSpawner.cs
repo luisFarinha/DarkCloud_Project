@@ -16,26 +16,28 @@ public class MeteorSpawner : MonoBehaviour
     private float timeToUpgrade;
     private float timeSinceUpgrade;
 
-    // Start is called before the first frame update
     void Start()
     {
         spawnRange = transform.localScale.x / 2;
+        
+        // initial meteor spawn values
         meteorSpeed = 7f;
         timeToSpawn = 1f;
         timeToUpgrade = 5f;
-        StartCoroutine(WaitToSpawnMeteors());
+        
+        StartCoroutine(WaitToSpawnMeteors()); 
     }
 
     private void Update()
     {
-        if (canStartSpawning)
+        if (canStartSpawning) // if cutscene is over then it starts spawning meteors 
         {
             StartSpawningMeteors();
         }
 
     }
 
-    private IEnumerator WaitToSpawnMeteors()
+    private IEnumerator WaitToSpawnMeteors() // Waits until the cutscene is over to allow the spawn of meteors
     {
         yield return new WaitForSeconds(CutsceneVars.CutsceneEnding);
         canStartSpawning = true;
@@ -56,7 +58,7 @@ public class MeteorSpawner : MonoBehaviour
             newMeteor.GetComponent<Meteor>().fallSpeed = meteorSpeed;
         }
 
-        //Upgrades over time
+        //Upgrades meteor spawn and meteors over time
         timeSinceUpgrade += Time.deltaTime;
         if (timeSinceUpgrade > timeToUpgrade)
         {

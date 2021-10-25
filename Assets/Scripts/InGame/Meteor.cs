@@ -13,21 +13,21 @@ public class Meteor : MonoBehaviour
 
     private float sizeVariation = 0.5f;
 
-
     public float fallSpeed;
 
-    // Start is called before the first frame update
     void Start()
     {
-        gameAnims = GameObject.FindWithTag("AnimationManager").GetComponent<GameplayAnimations>();
-        scoreTxt = GameObject.FindWithTag("ScoreText").GetComponent<Text>();
+        gameAnims = GameObject.FindWithTag(Constants.ANIMATION_MANAGER).GetComponent<GameplayAnimations>();
+        scoreTxt = GameObject.FindWithTag(Constants.SCORE_TEXT).GetComponent<Text>();
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
-        tm = GameObject.FindWithTag("LeaderboardTable").GetComponent<TableManager>();
+        tm = GameObject.FindWithTag(Constants.LEADERBOARD_TABLE).GetComponent<TableManager>();
 
+        // gives a random size to the meteor
         float randomSize = Random.Range(transform.localScale.x - sizeVariation, transform.localScale.x + sizeVariation);
         transform.localScale = new Vector2(randomSize, randomSize);
 
+        // changes meteor color according to its fallspeed value
         if (fallSpeed >= 7 && fallSpeed < 9)
         {
             sr.color = new Color(0, 0, 1);
@@ -66,18 +66,20 @@ public class Meteor : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private void FixedUpdate() // Good and computing physics system calculations (runs every 0.02 seconds)
     {
-        rb.velocity = new Vector2(0f, -fallSpeed);
+        rb.velocity = new Vector2(0f, -fallSpeed); // applys downward velocity to meteors
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.CompareTag("Player"))
+        // If has collided with the player creates a leaderboard submission and plays game over animation
+        if (col.gameObject.CompareTag(Constants.PLAYER)) 
         {
             tm.CreateRow();
             gameAnims.GameOver();
         }
+        // Else increments score and destroys itself
         else
         {
             scoreTxt.text = (int.Parse(scoreTxt.text) + 1).ToString();
