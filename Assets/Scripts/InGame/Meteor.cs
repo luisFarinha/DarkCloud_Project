@@ -100,8 +100,8 @@ public class Meteor : MonoBehaviour
                 0.5f + (sizeVariation * sizeVarCount * 2));
         }
 
-        colorVarCount += 0.01f;
-        sizeVarCount += 0.01f;
+        colorVarCount += 0.02f;
+        sizeVarCount += 0.02f;
     }
 
     private void FixedUpdate() // Good and computing physics system calculations (runs every 0.02 seconds)

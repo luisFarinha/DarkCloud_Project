@@ -65,7 +65,7 @@ public class MeteorSpawner : MonoBehaviour
             timeSinceUpgrade = 0;
             if(timeToSpawn < 0.8)
             {
-                timeToSpawn -= 0.05f;
+                timeToSpawn -= 0.06f;
             }
             else
             {

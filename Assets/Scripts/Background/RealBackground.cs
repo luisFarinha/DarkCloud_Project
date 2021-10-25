@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class RealBackground : MonoBehaviour
 {
-    private float rotationSpeed = 0.005f;
+    private float rotationSpeed = 0.01f;
 
     private float initialScaleX;
-    private float scaleSpeed = 0.002f;
+    private float scaleSpeed = 0.004f;
     private bool ascend = true;
 
     private void Start()
@@ -20,7 +20,7 @@ public class RealBackground : MonoBehaviour
         if(Time.timeScale != 0) // cant play during pause menu
         {
             transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z - rotationSpeed);
-            rotationSpeed += 0.00001f;
+            rotationSpeed += 0.0001f;
 
             if (Time.time >= 60) // Time when the beat drops
             {
