@@ -5,10 +5,12 @@ using UnityEngine;
 public class Wall : MonoBehaviour // simple wall script
 {
     private Animator anim;
+    private AudioManager audioManager;
 
     void Start()
     {
         anim = GetComponent<Animator>();
+        audioManager = GameObject.FindWithTag(Constants.AUDIO_MANAGER).GetComponent<AudioManager>();
 
         StartCoroutine(DropWall());
     }
@@ -18,5 +20,10 @@ public class Wall : MonoBehaviour // simple wall script
         yield return new WaitForSeconds(CutsceneVars.SecondCutsceneTimer);
 
         anim.Play("ClosePassage");
+    }
+
+    public void playCloseWallAudio() // called as an event at the end of Close Passage animation
+    {
+        audioManager.AudioWallClosed();
     }
 }

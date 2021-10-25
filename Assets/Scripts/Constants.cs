@@ -17,6 +17,7 @@ public class Constants
     public const string SCORE_TEXT = "ScoreText";
     public const string RESULT_TEXT = "ResultText";
     public const string PLAYER_OUTFIT_PANEL = "PlayerOutfitsPanel";
+    public const string FAKE_BACKGROUND = "FakeBackground";
 
     //Animations
     public const string PLAYER_WALK = "walk";
@@ -30,6 +31,7 @@ public class Constants
     public const string LEADERBOARD_SCROLL_IN = "LeaderboardScrollIn";
     public const string LEADERBOARD_SCROLL_OUT = "LeaderboardScrollOut";
     public const string KEY_PRESSED = "KeyPressed";
+    public const string BG_FALL = "bgFall";
 
     //Animation Parameters
     public const string GAME_OVER = "GameOver";

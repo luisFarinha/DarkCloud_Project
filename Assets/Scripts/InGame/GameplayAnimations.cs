@@ -5,7 +5,9 @@ using UnityEngine;
 public class GameplayAnimations : MonoBehaviour // manages all UI and cutscene Animations during play
 {
     private Animator anim;
-    private AudioSource bgAudio;
+    private Animator FakeBackgroundAnim;
+    private FakeBackground fakeBg;
+    private AudioSource bgMusic;
     private AudioManager audioManager;
 
     private bool lockScrollMenus; // locks player costumization menu in case of a game over
@@ -13,12 +15,18 @@ public class GameplayAnimations : MonoBehaviour // manages all UI and cutscene A
     void Start()
     {
         anim = GetComponent<Animator>();
-        bgAudio = GameObject.FindWithTag(Constants.BACKGROUND_AUDIO).GetComponent<AudioSource>();
+        FakeBackgroundAnim = GameObject.FindWithTag(Constants.FAKE_BACKGROUND).GetComponent<Animator>();
+        fakeBg = GameObject.FindWithTag(Constants.FAKE_BACKGROUND).GetComponent<FakeBackground>();
+        bgMusic = GameObject.FindWithTag(Constants.BACKGROUND_AUDIO).GetComponent<AudioSource>();
         audioManager = GameObject.FindWithTag(Constants.AUDIO_MANAGER).GetComponent<AudioManager>();
-        
+
         //coroutines for cutscene animations
-        StartCoroutine(CameraShake());
+        StartCoroutine(CameraShake(CutsceneVars.FirstCutsceneTimer));
+        StartCoroutine(CameraShake(15f));
+        StartCoroutine(CameraShake(25f));
+        StartCoroutine(CameraShake(35f));
         StartCoroutine(DontGetHit());
+        StartCoroutine(BackgroundFall());
     }
 
     private void Update()
@@ -36,11 +44,12 @@ public class GameplayAnimations : MonoBehaviour // manages all UI and cutscene A
         }
     }
 
-    private IEnumerator CameraShake() // calls a camera shake animation after the 1st cutscene animation is played
+    private IEnumerator CameraShake(float time) // calls a camera shake animation and sound after the 1st cutscene animation is played
     {
-        yield return new WaitForSeconds(CutsceneVars.FirstCutsceneTimer);
+        yield return new WaitForSeconds(time);
 
         anim.Play(Constants.CAMERA_SHAKE);
+        fakeBg.AudioEarthquake();
     }
 
     private IEnumerator DontGetHit() // calls a dont get hit animation after the 3rd cutscene animation is played
@@ -48,6 +57,13 @@ public class GameplayAnimations : MonoBehaviour // manages all UI and cutscene A
         yield return new WaitForSeconds(CutsceneVars.ThirdCutsceneTimer);
 
         anim.Play(Constants.DONT_GET_HIT);
+    }
+
+    private IEnumerator BackgroundFall() // calls a falling background animation after the 3rd cutscene animation is played
+    {
+        yield return new WaitForSeconds(CutsceneVars.CutsceneEndingPlus);
+
+        FakeBackgroundAnim.Play(Constants.BG_FALL);
     }
 
     public void GameOver() // is called when the player gets hit by a meteor (also stops time and locks the costumization menu)
@@ -87,12 +103,12 @@ public class GameplayAnimations : MonoBehaviour // manages all UI and cutscene A
     public void StopTime() // stops in game time and pauses background music
     {
         Time.timeScale = 0;
-        bgAudio.Pause();
+        bgMusic.Pause();
     }
 
     public void ResumeTime() // resumes in game time and unpauses background music
     {
         Time.timeScale = 1;
-        bgAudio.UnPause();
+        bgMusic.UnPause();
     }
 }

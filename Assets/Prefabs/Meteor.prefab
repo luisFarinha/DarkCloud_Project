@@ -137,3 +137,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fallSpeed: 0
+  meteorSplash: {fileID: 5237211484238434487, guid: 766eaf1a44ae7344db204cad15d1f337,
+    type: 3}

@@ -60,10 +60,10 @@ public class MeteorSpawner : MonoBehaviour
 
         //Upgrades meteor spawn and meteors over time
         timeSinceUpgrade += Time.deltaTime;
-        if (timeSinceUpgrade > timeToUpgrade)
+        if (timeSinceUpgrade > timeToUpgrade && meteorSpeed < 19)
         {
             timeSinceUpgrade = 0;
-            if(timeToSpawn < 0.6)
+            if(timeToSpawn < 0.8)
             {
                 timeToSpawn -= 0.05f;
             }
@@ -75,4 +75,6 @@ public class MeteorSpawner : MonoBehaviour
             meteorSpeed += 1f;
         }
     }
+
+
 }
