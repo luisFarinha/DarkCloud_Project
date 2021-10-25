@@ -2,25 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSoundManager : MonoBehaviour
+public class PlayerSoundManager : MonoBehaviour // made to play player's audio clips
 {
     private AudioSource source;
 
     public AudioClip[] footsteps;
 
-    // Start is called before the first frame update
     void Start()
     {
         source = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void AudioFootStep()
+    public void AudioFootStep() // a random footstep audio clip (called in walk animation events)
     {
         source.clip = footsteps[Mathf.FloorToInt(UnityEngine.Random.value * footsteps.Length)];
         source.Play();

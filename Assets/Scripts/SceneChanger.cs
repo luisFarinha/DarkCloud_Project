@@ -5,15 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
-    public void ChangeToPlayScene()
+    public void ChangeToPlayScene() // resumes in game time and changes to play scene
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("PlayScene");
+        SceneManager.LoadScene(Constants.PLAY_SCENE);
     }
 
-    public void ChangeToMenusScene()
+    public void ChangeToMenusScene() // resumes in game time and changes to main menu scene
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("EditScene");
+        SceneManager.LoadScene(Constants.EDIT_SCENE);
     }
 }

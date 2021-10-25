@@ -30,16 +30,18 @@ public class DataHandler : MonoBehaviour // Manages the reading and writing of d
         table = GameObject.FindWithTag(Constants.LEADERBOARD_TABLE);
         try { rows = GameObject.FindGameObjectsWithTag(Constants.ROW); } catch (Exception) { };
         
+        // loads player and leaderboard data from json files to the game
         LoadPlayerOutfitData();
         LoadLeaderboardData();
     }
 
     public void LoadPlayerOutfitData()
     {
-        playerOutfit = JsonHandler.ReadPlayerOutfitData();
+        playerOutfit = JsonHandler.ReadPlayerOutfitData(); // reads data from json file
 
         if (playerOutfit != null)
         {
+            // Searches each player body part value and assigns it to the right body part option 
             foreach (OutfitChanger outfitChanger in outfitChangerScripts)
             {
                 switch (outfitChanger.bodyPartString)
@@ -67,6 +69,7 @@ public class DataHandler : MonoBehaviour // Manages the reading and writing of d
     {
         if (playerOutfit != null)
         {
+            // Searches each player body part value and saves it on a PlayerOutfit object to later be writen in a json file
             foreach (OutfitChanger outfitChanger in outfitChangerScripts)
             {
                 switch (outfitChanger.bodyPartString)
@@ -88,17 +91,22 @@ public class DataHandler : MonoBehaviour // Manages the reading and writing of d
             Debug.Log("On save, Player data is null");
         }
 
-        JsonHandler.WritePlayerOutfitData(playerOutfit);
+        JsonHandler.WritePlayerOutfitData(playerOutfit); // writes data to json file
     }
 
-    public void LoadLeaderboardData()
+    public void LoadLeaderboardData() // reads data from json file
     {
         leaderboard = JsonHandler.ReadLeaderboardData();
 
         if (leaderboard != null)
         {
+            int countSubmissions = 0;
+
+            //for each submission made creates a new row with the respective atributes. The row becomes a child of the leaderboard table
             foreach (Submission submission in leaderboard.submission)
             {
+                if(countSubmissions >= 10) { break; }
+
                 GameObject newRow = Instantiate(row) as GameObject;
                 newRow.transform.SetParent(table.transform);
                 newRow.transform.localScale = new Vector2(1, 1);
@@ -109,6 +117,8 @@ public class DataHandler : MonoBehaviour // Manages the reading and writing of d
                 rowScript.nameTxt.text = submission.name;
                 rowScript.timeAliveTxt.text = submission.time;
                 rowScript.scoreTxt.text = submission.score;
+
+                countSubmissions++;
             }
         }
         else
@@ -118,25 +128,20 @@ public class DataHandler : MonoBehaviour // Manages the reading and writing of d
     }
 
     //Saving Leaderboard Data
-    public void SaveLeaderboardData()
+    public void SaveLeaderboardData(Row[] sortedRows)
     {
         leaderboard = new Leaderboard();
 
-        rows = GameObject.FindGameObjectsWithTag(Constants.ROW);
+        Submission[] submissions = new Submission[sortedRows.Length];
 
-        Submission[] submissions = new Submission[rows.Length];
-
-        for (int i = 0; i < rows.Length; i++)
+        for (int i = 0; i < sortedRows.Length; i++)
         {
-            Row rowScript = rows[i].GetComponent<Row>();
-            Debug.Log(rowScript.scoreTxt.text);
-
             Submission submiss = new Submission
             {
-                place = rowScript.placeTxt.text,
-                name = rowScript.nameTxt.text,
-                time = rowScript.timeAliveTxt.text,
-                score = rowScript.scoreTxt.text
+                place = sortedRows[i].placeTxt.text,
+                name = sortedRows[i].nameTxt.text,
+                time = sortedRows[i].timeAliveTxt.text,
+                score = sortedRows[i].scoreTxt.text
             };
 
             submissions[i] = submiss;
@@ -144,6 +149,6 @@ public class DataHandler : MonoBehaviour // Manages the reading and writing of d
 
         leaderboard.submission = submissions;
 
-        JsonHandler.WriteLeaderboardData(leaderboard);
+        JsonHandler.WriteLeaderboardData(leaderboard); // writes data to json file
     }
 }

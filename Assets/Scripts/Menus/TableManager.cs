@@ -20,10 +20,9 @@ public class TableManager : MonoBehaviour
     public GameObject row;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         dataHandler = GameObject.FindWithTag(Constants.DATA_HANDLER).GetComponent<DataHandler>();
-        SortByScore();
 
         try { rows = GameObject.FindGameObjectsWithTag(Constants.ROW); } catch (Exception) { };
         try { nameInputField = GameObject.FindWithTag(Constants.NAME_INPUT_FIELD).GetComponent<InputField>(); ; } catch (Exception) { };
@@ -32,7 +31,7 @@ public class TableManager : MonoBehaviour
         try { resultTxt = GameObject.FindWithTag(Constants.RESULT_TEXT).GetComponent<Text>(); } catch (Exception) { }; 
     }
 
-    public void CreateRow()
+    public void CreateRow() // creates a new row within the leaderboard table and sorts all rows
     {
         GameObject newRow = Instantiate(row) as GameObject;
         newRow.transform.SetParent(transform);
@@ -45,18 +44,18 @@ public class TableManager : MonoBehaviour
         rowScript.timeAliveTxt.text = timeTxt.text;
         rowScript.scoreTxt.text = scoreTxt.text;
 
-        SortByScore();
+        Row[] sortedRows = SortByScore();
 
-        try
+        try // Result message to be displayed in the game over screen
         {
             resultTxt.text = nameInputField.text + " dodged " + scoreTxt.text + " ball(s) in " + timeTxt.text + " minutes!";
         }
         catch (Exception) { }
 
-        dataHandler.SaveLeaderboardData();
+        dataHandler.SaveLeaderboardData(sortedRows);
     }
 
-    public void SortByScore() 
+    public Row[] SortByScore() 
     {
         rows = GameObject.FindGameObjectsWithTag(Constants.ROW);
 
@@ -72,22 +71,28 @@ public class TableManager : MonoBehaviour
         Array.Sort(scoresOrdered); //sort scores ascending
         Array.Reverse(scoresOrdered); //reverse the order of the array
         scoresOrdered = scoresOrdered.Distinct().ToArray(); // remove duplicated values
+
+        Row[] sortedRows = new Row[rows.Length];
         int count = 0; //Used to place submissions
+        
         for (int i = 0; i < scoresOrdered.Length; i++)
         {
-            int alignCount = 0; //Used to place same score submissions in different places
             for (int j = 0; j < rows.Length; j++)
             {
-                int rowScore = int.Parse(rows[j].GetComponent<Row>().scoreTxt.text);
+                int rowScore = int.Parse(rows[j].GetComponent<Row>().scoreTxt.text); // get parsed row score
 
                 if (scoresOrdered[i] == rowScore)
                 {
-                    rows[j].transform.SetSiblingIndex(i + alignCount);
-                    rows[j].GetComponent<Row>().placeTxt.text = (i + alignCount + 1).ToString();
+                    rows[j].transform.SetSiblingIndex(i + count); // set row placement
+                    rows[j].GetComponent<Row>().placeTxt.text = (count + 1).ToString(); // set row placement text
+                    
+                    sortedRows[count] = rows[j].GetComponent<Row>();
+                    
                     count++;
-                    alignCount++;
                 }
             }
         }
+
+        return sortedRows;
     }
 }

@@ -49,5 +49,8 @@ public class Constants
     public const string PLAYER_OUTFIT_FILE_PATH = "/PlayerOutfit.json";
     public const string LEADERBOARD_FILE_PATH = "/Leaderboard.json";
 
+    //Scene Names
+    public const string PLAY_SCENE = "PlayScene";
+    public const string EDIT_SCENE = "EditScene";
 }
 
